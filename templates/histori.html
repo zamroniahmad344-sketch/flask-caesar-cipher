@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Histori Pendaftaran</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0">📜 Histori Pendaftaran</h3>
+            </div>
+            <div class="card-body">
+                {% if histori %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nama</th>
+                                    <th>Hasil Enkripsi</th>
+                                    <th>Waktu</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in histori %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ item.nama }}</td>
+                                    <td><code>{{ item.enkripsi }}</code></td>
+                                    <td>{{ item.waktu }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p class="text-center">Belum ada histori</p>
+                {% endif %}
+                <a href="/" class="btn btn-primary">Kembali</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
