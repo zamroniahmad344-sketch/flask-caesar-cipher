@@ -2,45 +2,159 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Histori Pendaftaran</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>📜 Histori Pendaftaran - Caesar Cipher</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    <style>
+        .histori-card {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 94, 0, 0.4);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 100px auto;
+            max-width: 900px;
+            animation: fadeIn 0.8s ease;
+        }
+        
+        .histori-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 2rem;
+            text-align: center;
+            background: linear-gradient(45deg, #FF5E00, #00B2FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 30px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            font-family: 'Orbitron', monospace;
+            color: #FF5E00;
+            padding: 15px;
+            text-align: left;
+            border-bottom: 2px solid #FF5E00;
+        }
+        
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(255, 94, 0, 0.2);
+            font-family: 'Rajdhani', sans-serif;
+        }
+        
+        .encrypt-code {
+            font-family: monospace;
+            color: #00B2FF;
+            font-size: 0.85rem;
+        }
+        
+        .empty-message {
+            text-align: center;
+            padding: 40px;
+            opacity: 0.6;
+            font-size: 1.1rem;
+        }
+        
+        .btn-back {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 25px;
+            background: linear-gradient(45deg, #FF5E00, #00B2FF);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-family: 'Orbitron', monospace;
+        }
+        
+        .btn-back:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 94, 0, 0.5);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.5);
+            margin-top: 50px;
+        }
+        
+        .copyright {
+            opacity: 0.5;
+            font-size: 0.8rem;
+        }
+        
+        @media (max-width: 768px) {
+            .histori-card { padding: 20px; margin: 80px 15px; }
+            th, td { padding: 8px; font-size: 0.75rem; }
+            .encrypt-code { font-size: 0.7rem; }
+        }
+    </style>
 </head>
-<body class="bg-light">
-    <div class="container py-5">
-        <div class="card">
-            <div class="card-header bg-primary text-white">
-                <h3 class="mb-0">📜 Histori Pendaftaran</h3>
+<body>
+    <div class="grid-bg"></div>
+    <div class="gradient-overlay"></div>
+    <div class="scanlines"></div>
+    <div id="particles"></div>
+
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo-link">
+                <span class="logo-text">⚡ CAESAR CIPHER ⚡</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="/histori" class="nav-link active">Histori</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="histori-card">
+        <h1 class="histori-title">📜 HISTORI PENDAFTARAN</h1>
+        {% if histori %}
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nama</th>
+                            <th>Hasil Enkripsi</th>
+                            <th>Waktu</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in histori %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ item.nama }}</td>
+                            <td><code class="encrypt-code">{{ item.enkripsi }}</code></td>
+                            <td>{{ item.waktu }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
-            <div class="card-body">
-                {% if histori %}
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Nama</th>
-                                    <th>Hasil Enkripsi</th>
-                                    <th>Waktu</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for item in histori %}
-                                <tr>
-                                    <td>{{ loop.index }}</td>
-                                    <td>{{ item.nama }}</td>
-                                    <td><code>{{ item.enkripsi }}</code></td>
-                                    <td>{{ item.waktu }}</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                {% else %}
-                    <p class="text-center">Belum ada histori</p>
-                {% endif %}
-                <a href="/" class="btn btn-primary">Kembali</a>
+        {% else %}
+            <div class="empty-message">
+                <p>✨ Belum ada histori pendaftaran ✨</p>
+                <p style="font-size: 0.9rem; margin-top: 10px;">Silakan daftar terlebih dahulu di halaman utama</p>
             </div>
+        {% endif %}
+        <div style="text-align: center;">
+            <a href="/" class="btn-back">🏠 KEMBALI KE HOME</a>
         </div>
     </div>
+
+    <footer>
+        <div class="footer-content">
+            <p class="copyright">© 2025 Caesar Cipher | Shift Caesar 3 | Sistem Enkripsi Digital</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
